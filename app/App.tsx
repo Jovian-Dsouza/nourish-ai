@@ -1,5 +1,5 @@
 import React from "react";
-import NourishAIHome from "./components/home/home";
+import Home from "../src/screens/home"
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 
@@ -11,7 +11,7 @@ function App(): JSX.Element {
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen
           name="Home"
-          component={NourishAIHome}
+          component={Home}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

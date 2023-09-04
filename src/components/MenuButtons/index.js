@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faBars,
@@ -10,11 +10,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Shadow } from "react-native-shadow-2";
 import { COLORS } from "../../constants/theme";
+import styles from "./styles";
 
-
-const FooterButton = ({ icon, isActive, onPress }) => (
+const MenuButton = ({ icon, isActive, onPress }) => (
   <TouchableOpacity
-    style={[styles.footerButton, isActive && styles.activeButton]}
+    style={[styles.menuButton, isActive && styles.activeButton]}
     onPress={onPress}
   >
     <FontAwesomeIcon
@@ -31,7 +31,7 @@ const AddButton = ({ icon }) => (
   </TouchableOpacity>
 );
 
-const FooterButtons = () => {
+const MenuButtons = () => {
   const [activeButton, setActiveButton] = useState("menu"); // Initial active button
 
   const handleButtonPress = (button) => {
@@ -41,24 +41,24 @@ const FooterButtons = () => {
   return (
     <View style={styles.container}>
       <Shadow style={styles.shadow} distance={3}>
-        <View style={styles.footerContainer}>
-          <FooterButton
+        <View style={styles.menuContainer}>
+          <MenuButton
             icon={faBars}
             isActive={activeButton === "menu"}
             onPress={() => handleButtonPress("menu")}
           />
-          <FooterButton
+          <MenuButton
             icon={faUtensils}
             isActive={activeButton === "food"}
             onPress={() => handleButtonPress("food")}
           />
           <AddButton icon={faPlus} />
-          <FooterButton
+          <MenuButton
             icon={faFire}
             isActive={activeButton === "burned"}
             onPress={() => handleButtonPress("burned")}
           />
-          <FooterButton
+          <MenuButton
             icon={faCamera}
             isActive={activeButton === "scan"}
             onPress={() => handleButtonPress("scan")}
@@ -69,45 +69,4 @@ const FooterButtons = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.white,
-  },
-  shadow: {
-    width: "100%",
-  },
-  footerContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    backgroundColor: COLORS.white,
-    borderTopWidth: 1,
-    borderTopColor: COLORS.white,
-    paddingVertical: 10,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingHorizontal: 20,
-  },
-  footerButton: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: "20%", // Equal width for all buttons
-  },
-  dot: {
-    marginTop: 5,
-    width: 6,
-    height: 6,
-    backgroundColor: COLORS.orange, // Use the appropriate orange color
-    borderRadius: 3,
-  },
-  addFoodButton: {
-    width: 50,
-    height: 50,
-    backgroundColor: COLORS.orange,
-    borderRadius: 25,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
-
-export default FooterButtons;
+export default MenuButtons;

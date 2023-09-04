@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faBolt } from "@fortawesome/free-solid-svg-icons";
 import { CircularProgressBase } from "react-native-circular-progress-indicator";
-import { COLORS } from "../../constants/theme";
+import { COLORS } from "../../src/constants/theme";
 
 const KcalProgressBar = ({ consumedKcal, totalKcal }) => {
   const kcalLeft = totalKcal - consumedKcal;

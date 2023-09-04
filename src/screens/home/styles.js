@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "../../constants/theme";
+import { COLORS } from "@/constants/theme";
 
 const styles = StyleSheet.create({
   container: {
@@ -17,19 +17,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 50,
     overflow: "hidden",
   },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: COLORS.lightGreen,
-    paddingVertical: 10,
-    marginHorizontal: 10,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: COLORS.black,
-  },
+  
   content: {
     paddingHorizontal: 20,
   },

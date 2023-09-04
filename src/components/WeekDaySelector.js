@@ -6,7 +6,7 @@ import {
   FlatList,
   StyleSheet,
 } from "react-native";
-import { COLORS } from "../../constants/theme";
+import { COLORS } from "../../src/constants/theme";
 
 const colorSelected = (isSelected) => {
   if (isSelected) return { color: COLORS.black };
@@ -54,9 +54,6 @@ const WeekDaySelector = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    // height: 60,
-  },
   flatlistContainer: {
     justifyContent: "space-between",
     width: "100%", // Take the full width
