@@ -1,0 +1,12 @@
+{
+  "name": "nourish-ai",
+  "displayName": "nourish-ai",
+  "expo": {
+    "name": "nourish-ai",
+    "slug": "nourish-ai",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
