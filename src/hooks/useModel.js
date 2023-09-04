@@ -1,27 +1,28 @@
 import React, { useState, useEffect } from "react";
 import * as tf from "@tensorflow/tfjs";
 import "@tensorflow/tfjs-react-native";
-import { Image } from "react-native";
-import { fetch, decodeJpeg } from "@tensorflow/tfjs-react-native";
+import { decodeJpeg } from "@tensorflow/tfjs-react-native";
+import { decode } from "base-64";
+import imagenetSimpleLabels from "../constants/imagenet-simple-labels";
 
 function useModel() {
   const [model, setModel] = useState(null);
-  const [isTfReady, setIsTfReady] = useState(false);
 
-  async function loadModel() {
+  const MODEL_URL =
+    "https://tfhub.dev/google/tfjs-model/imagenet/mobilenet_v2_035_224/feature_vector/3/default/1";
+
+  const loadModel = async () => {
     try {
       await tf.ready();
-      const modelUrl =
-        "https://tfhub.dev/google/tfjs-model/imagenet/mobilenet_v3_large_075_224/feature_vector/5/default/1";
-      const loadedModel = await tf.loadGraphModel(modelUrl, {
+      const loadedModel = await tf.loadGraphModel(MODEL_URL, {
         fromTFHub: true,
       });
       setModel(loadedModel);
-      console.log(`${modelUrl} Loaded`);
+      console.log(`Model from ${MODEL_URL} Loaded`);
     } catch (error) {
       console.error("Error loading model:", error);
     }
-  }
+  };
 
   function preprocess(imageTensor) {
     const widthToHeight = imageTensor.shape[1] / imageTensor.shape[0];
@@ -48,30 +49,32 @@ function useModel() {
       console.error("Crop tensor is not initialized properly");
       return;
     }
-    console.log(crop.dtype)
-    console.log("Crop", crop)
     return crop.div(255);
   }
 
-  async function predict() {
+  function base64ToUint8Array(base64) {
+    const binary_string = decode(base64);
+    const len = binary_string.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes;
+  }
+
+  async function predict(base64) {
+    var result = {};
     if (!model) {
       console.error("Model not loaded yet.");
-      return;
+      return result;
     }
-    console.log("model is loaded")
-
-    // Load the image
-    // const image = require("./basketball.jpg");
-    // const imageAssetPath = Image.resolveAssetSource(image);
-    // const response = await fetch(imageAssetPath.uri, {}, { isBinary: true });
-    // const imageDataArrayBuffer = await response.arrayBuffer();
-    // const imageData = new Uint8Array(imageDataArrayBuffer);
+    //Load image
+    const imageData = base64ToUint8Array(base64);
 
     // Preprocess the image
-    // const imageTensor = tf.node.decodeImage(imageData, 3);
     const imageTensor = decodeJpeg(imageData);
     const preprocessedImage = preprocess(imageTensor);
-    console.log("Processing successfull")
+    console.log("Processing successfull");
 
     // Make predictions
     const predictions = await model.predict(preprocessedImage);
@@ -80,35 +83,23 @@ function useModel() {
     const topPredictions = Array.from(predictions.dataSync())
       .map((score, classIdx) => ({ score, classIdx }))
       .sort((a, b) => b.score - a.score)
-      .slice(0, 5); // Get the top 5 predictions
-
-    console.log("Top Predictions:", topPredictions);
-
-    // You can set the top predictions state or display them as needed
+      .slice(0, 1); // Get the top 5 predictions
+    // console.log("Top Predictions:", imagenetSimpleLabels[topPredictions[0].classIdx]);
+    const topClass = topPredictions[0];
+    return {
+      classIdx: topClass.classIdx,
+      className: imagenetSimpleLabels[topClass.classIdx],
+      score: topClass.classIdx,
+    };
   }
 
-  const initializeTensorflow = async () => {
-    try {
-      await loadModel();
-      setIsTfReady(true);
-
-      await predict();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
-    initializeTensorflow();
+    (async () => {
+      await loadModel();
+    })();
   }, []);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     await predict();
-  //   })();
-  // }, [model]);
-
-  return { isTfReady, model };
+  return { model, predict };
 }
 
 export default useModel;
