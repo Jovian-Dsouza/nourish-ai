@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { SafeAreaView, ScrollView, StatusBar } from "react-native";
+import { ScrollView } from "react-native";
 import WeekDaySelector from "@/components/WeekDaySelector";
 import { createStackNavigator } from "@react-navigation/stack";
 import Header from "../../components/Header";
@@ -16,13 +16,13 @@ import {
   macroData,
   foodData,
 } from "../../constants/dummyData";
+import AppLayout from "../../layouts/AppLayout";
 
 const Home = () => {
   const Stack = createStackNavigator();
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={styles.container.backgroundColor} />
+    <AppLayout>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.contentContainer}>
           <Header />
@@ -41,7 +41,7 @@ const Home = () => {
         </View>
       </ScrollView>
       <MenuButtons />
-    </SafeAreaView>
+    </AppLayout>
   );
 };
 
