@@ -18,6 +18,7 @@
     "@tensorflow-models/mobilenet": "2.1.0",
     "@tensorflow/tfjs": "3.18.0",
     "@tensorflow/tfjs-react-native": "0.8.0",
+    "base-64": "^1.0.0",
     "caniuse-lite": "^1.0.30001525",
     "expo": "~45.0.6",
     "expo-camera": "^12.2.0",
