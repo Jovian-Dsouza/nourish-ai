@@ -17,12 +17,13 @@ import {
   foodData,
 } from "../../constants/dummyData";
 import AppLayout from "../../layouts/AppLayout";
+import { COLORS } from "../../constants";
 
 const Home = () => {
   const Stack = createStackNavigator();
 
   return (
-    <AppLayout>
+    <AppLayout statuBarColor={COLORS.lightGreen}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.contentContainer}>
           <Header />
