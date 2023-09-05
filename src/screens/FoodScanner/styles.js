@@ -66,6 +66,36 @@ const styles = StyleSheet.create({
     alignItems: "center",
     margin: 20,
   },
+  resultContainer: {
+    padding: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  imagePreview: {
+    width: 200,
+    height: 200,
+    borderRadius: 100, // This makes it circular
+    marginBottom: 20,
+  },
+
+  foodName: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+
+  confidence: {
+    fontSize: 18,
+    color: "grey",
+    marginBottom: 20,
+  },
+
+  nutritionTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
 });
 
 export default styles;

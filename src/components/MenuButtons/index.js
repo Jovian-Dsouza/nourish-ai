@@ -11,6 +11,7 @@ import {
 import { Shadow } from "react-native-shadow-2";
 import { COLORS } from "../../constants/theme";
 import styles from "./styles";
+import { useNavigation } from "@react-navigation/native";
 
 const MenuButton = ({ icon, isActive, onPress }) => (
   <TouchableOpacity
@@ -33,9 +34,13 @@ const AddButton = ({ icon }) => (
 
 const MenuButtons = () => {
   const [activeButton, setActiveButton] = useState("menu"); // Initial active button
-
+  const navigation = useNavigation();
+  
   const handleButtonPress = (button) => {
     setActiveButton(button);
+    if(button === "scan"){
+        navigation.navigate("FoodScanner");
+    }
   };
 
   return (
