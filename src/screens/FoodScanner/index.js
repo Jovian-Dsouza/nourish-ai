@@ -17,24 +17,27 @@ import useModel from "../../hooks/useModel";
 import { decode } from "base-64";
 import ScanResultView from "../../components/ScanResultView";
 import { COLORS } from "../../constants";
+import { useNavigation } from "@react-navigation/native";
 
 const testDectionData = {
-  "confidence": 95.7,
-  "image": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fnourish-ai-300bda4c-9066-4e65-a0a0-10784dca77a7/Camera/c4638f30-70ac-4b2d-b54f-6c9f3afcba49.jpg",
-  "name": "Burger",
-  "nutrition":  {
-    "calories": 285,
-    "carbohydrates": "36g",
-    "fats": "10g",
-    "proteins": "12g",
+  confidence: 95.7,
+  image:
+    "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fnourish-ai-300bda4c-9066-4e65-a0a0-10784dca77a7/Camera/c4638f30-70ac-4b2d-b54f-6c9f3afcba49.jpg",
+  name: "Burger",
+  nutrition: {
+    calories: 354,
+    carbohydrates: "32g",
+    fats: "17g",
+    proteins: "19g",
   },
-}
+};
 
 const FoodScanner = () => {
+  const navigation = useNavigation();
   const [hasPermission, setHasPermission] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-//   const [detectedFood, setDetectedFood] = useState(null);
-  const [detectedFood, setDetectedFood] = useState(testDectionData);
+  const [detectedFood, setDetectedFood] = useState(null);
+  // const [detectedFood, setDetectedFood] = useState(testDectionData);
   const cameraRef = useRef(null);
   const { predict } = useModel();
 
@@ -58,10 +61,10 @@ const FoodScanner = () => {
           name: prediction.className,
           confidence: 95.7,
           nutrition: {
-            calories: 285,
-            fats: "10g",
-            carbohydrates: "36g",
-            proteins: "12g",
+            calories: 354,
+            carbohydrates: "32g",
+            fats: "17g",
+            proteins: "19g",
           },
         };
 
@@ -87,6 +90,7 @@ const FoodScanner = () => {
           <ScanResultView
             data={detectedFood}
             onRetake={() => setDetectedFood(null)}
+            onAdd={() => {navigation.navigate("Food");}}
           />
         ) : (
             

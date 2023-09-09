@@ -26,7 +26,7 @@ const Home = () => {
     <AppLayout statuBarColor={COLORS.lightGreen}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.contentContainer}>
-          <Header />
+          <Header title="Home"/>
           <WeekDaySelector />
           <CaloriesSection
             consumedKcal={consumedKcal}

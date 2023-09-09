@@ -41,6 +41,12 @@ const MenuButtons = () => {
     if(button === "scan"){
         navigation.navigate("FoodScanner");
     }
+    if(button === "menu"){
+      navigation.navigate("Home")
+    }
+    if(button === "food"){
+      navigation.navigate("Food")
+    }
   };
 
   return (

@@ -21,7 +21,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./styles";
 
-const ScanResultView = ({ data, onRetake, onSave }) => {
+const ScanResultView = ({ data, onRetake, onAdd }) => {
   const [servingSize, setServingSize] = useState(1);
   return (
     <ScrollView contentContainerStyle={styles.resultContainer}>
@@ -80,7 +80,7 @@ const ScanResultView = ({ data, onRetake, onSave }) => {
           <Text style={styles.buttonText}>Retake</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={onSave}
+          onPress={onAdd}
           style={[styles.button, styles.saveButton]}
         >
           <FontAwesomeIcon icon={faPlus} color="white" size={20} />

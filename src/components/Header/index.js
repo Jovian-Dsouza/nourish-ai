@@ -19,10 +19,10 @@ const SettingsLogo = () => (
   </TouchableOpacity>
 );
 
-const Header = () => (
-  <View style={styles.header}>
+const Header = ({ title, backgroundColor }) => (
+  <View style={[styles.header, {backgroundColor: backgroundColor}]}>
     <ProfileLogo />
-    <Text style={styles.headerTitle}>Home</Text>
+    <Text style={styles.headerTitle}>{title}</Text>
     <SettingsLogo />
   </View>
 );

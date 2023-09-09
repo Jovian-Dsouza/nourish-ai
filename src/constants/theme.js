@@ -12,6 +12,8 @@ const COLORS = {
   black: "#000000",
   gray: "#B6B6B6",
   inActiveStroke: "#C3EEA6",
+
+  lightOrange: "#FFF2EB",
 };
 
 const FONT = {
