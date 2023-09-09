@@ -34,4 +34,40 @@ const styles = StyleSheet.create({
   },
 });
 
+export const mealStyles = StyleSheet.create({
+  macrosSection: {
+    justifyContent: "center",
+    alignItems: "flex-start",
+    marginVertical: 10,
+    marginHorizontal: 10,
+  },
+  macrosCardSection: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 13,
+  },
+  textSection: {
+    marginLeft: 15,
+  },
+  macrosCardSubText: {
+    fontSize: 10,
+    fontWeight: "bold",
+    color: "gray",
+  },
+  macrosCardText: {
+    color: COLORS.black,
+    fontWeight: "bold",
+    fontSize: 20,
+    fontWeight: "500",
+  },
+  macroBar: {
+    unfilledColor: COLORS.inActiveStroke,
+  },
+  icon: {
+    fontSize: 20, // Adjust as necessary
+    color: COLORS.black,
+  },
+});
+
 export default styles;

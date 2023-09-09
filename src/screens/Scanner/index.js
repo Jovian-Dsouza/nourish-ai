@@ -32,7 +32,7 @@ const testDectionData = {
   },
 };
 
-const FoodScanner = () => {
+const Scanner = () => {
   const navigation = useNavigation();
   const [hasPermission, setHasPermission] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -50,7 +50,6 @@ const FoodScanner = () => {
 
   const detectFood = async () => {
     if (cameraRef.current) {
-
       try {
         const options = { quality: 0.5, base64: true };
 
@@ -90,10 +89,11 @@ const FoodScanner = () => {
           <ScanResultView
             data={detectedFood}
             onRetake={() => setDetectedFood(null)}
-            onAdd={() => {navigation.navigate("Food");}}
+            onAdd={() => {
+              navigation.navigate("Food");
+            }}
           />
         ) : (
-            
           <Camera
             style={{ flex: 1 }}
             type={Camera.Constants.Type.back}
@@ -121,4 +121,4 @@ const ButtonContainer = ({ onPress, isLoading }) => (
   </View>
 );
 
-export default FoodScanner;
+export default Scanner;

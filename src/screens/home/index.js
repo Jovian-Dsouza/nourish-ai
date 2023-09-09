@@ -5,7 +5,7 @@ import WeekDaySelector from "@/components/WeekDaySelector";
 import { createStackNavigator } from "@react-navigation/stack";
 import Header from "../../components/Header";
 import CaloriesSection from "../../components/CaloriesSection";
-import MacrosSection from "../../components/MacrosSection";
+import { MacrosSection } from "../../components/MacrosSection";
 import DailyMeals from "../../components/DailyMeals";
 import MenuButtons from "../../components/MenuButtons";
 import styles from "./styles";

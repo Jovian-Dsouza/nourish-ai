@@ -1,7 +1,9 @@
 import React from "react";
-import Home from "../src/screens/home"
-import FoodScanner from "../src/screens/FoodScanner";
+import Home from "../src/screens/Home";
+import Scanner from "../src/screens/Scanner";
 import Food from "../src/screens/Food";
+import Meal from "../src/screens/Meal";
+
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 
@@ -22,8 +24,13 @@ function App(): JSX.Element {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="FoodScanner"
-          component={FoodScanner}
+          name="Scanner"
+          component={Scanner}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Meal"
+          component={Meal}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

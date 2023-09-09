@@ -27,7 +27,7 @@ const MenuButton = ({ icon, isActive, onPress }) => (
   </TouchableOpacity>
 );
 
-const AddButton = ({ icon , onPress}) => (
+const AddButton = ({ icon, onPress }) => (
   <TouchableOpacity style={styles.addFoodButton} onPress={onPress}>
     <FontAwesomeIcon icon={icon} size={24} color={COLORS.white} />
   </TouchableOpacity>
@@ -36,20 +36,20 @@ const AddButton = ({ icon , onPress}) => (
 const MenuButtons = ({ onAdd }) => {
   const [activeButton, setActiveButton] = useState("menu"); // Initial active button
   const navigation = useNavigation();
-  
+
   const handleButtonPress = (button) => {
     setActiveButton(button);
-    if(button === "scan"){
-        navigation.navigate("FoodScanner");
+    if (button === "scan") {
+      navigation.navigate("Scanner");
     }
-    if(button === "menu"){
-      navigation.navigate("Home")
+    if (button === "menu") {
+      navigation.navigate("Home");
     }
-    if(button === "food"){
-      navigation.navigate("Food")
+    if (button === "food") {
+      navigation.navigate("Food");
     }
-    if(button === "add"){
-      onAdd()
+    if (button === "add") {
+      onAdd();
     }
   };
 

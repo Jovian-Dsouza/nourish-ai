@@ -2,7 +2,8 @@ import React from "react";
 import { View, Text } from "react-native";
 import ProgressBar from "react-native-progress/Bar";
 import { COLORS } from "@/constants/theme";
-import styles from "./styles";
+import styles, { mealStyles } from "./styles";
+import CircularProgress  from "react-native-circular-progress-indicator";
 
 const MacrosCardSection = ({ macro, eaten, total, pbColor }) => {
   const left = Math.max(total - eaten, 0);
@@ -25,7 +26,7 @@ const MacrosCardSection = ({ macro, eaten, total, pbColor }) => {
   );
 };
 
-const MacrosSection = ({ macroData }) => {
+export const MacrosSection = ({ macroData }) => {
   const {
     carbsEaten,
     carbsTotal,
@@ -61,4 +62,64 @@ const MacrosSection = ({ macroData }) => {
   );
 };
 
-export default MacrosSection
+////////////////////MEAL///////////////////////////////////////
+const MealMacroCard = ({ macro, eaten, total, pbColor }) => {
+  const left = Math.max(total - eaten, 0);
+  const progress = (eaten / total) * 100;
+
+  return (
+    <View style={mealStyles.macrosCardSection}>
+
+      <CircularProgress
+        value={progress}
+        radius={17} 
+        activeStrokeWidth={6} 
+        inActiveStrokeWidth={6} 
+        activeStrokeColor={pbColor}
+        inActiveStrokeColor={mealStyles.macroBar.unfilledColor}
+        showProgressValue={false}
+        progressValueColor={COLORS.black}
+      />
+      <View style={mealStyles.textSection}>
+        <Text style={mealStyles.macrosCardText}>{`${left}g`}</Text>
+        <Text style={mealStyles.macrosCardSubText}>{macro}</Text>
+      </View>
+    </View>
+  );
+};
+
+export const MealMacrosSection = ({ macroData }) => {
+  const {
+    carbsEaten,
+    carbsTotal,
+    proteinEaten,
+    proteinTotal,
+    fatEaten,
+    fatTotal,
+  } = macroData;
+
+  return (
+    <View style={mealStyles.macrosSection}>
+      <MealMacroCard
+        macro="CARB"
+        pbColor={COLORS.bluishGreen}
+        eaten={carbsEaten}
+        total={carbsTotal}
+      />
+
+      <MealMacroCard
+        macro="PROTEIN"
+        pbColor={COLORS.violet}
+        eaten={proteinEaten}
+        total={proteinTotal}
+      />
+
+      <MealMacroCard
+        macro="FAT"
+        pbColor={COLORS.darkBlue}
+        eaten={fatEaten}
+        total={fatTotal}
+      />
+    </View>
+  );
+};
