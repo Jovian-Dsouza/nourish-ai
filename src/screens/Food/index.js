@@ -69,7 +69,9 @@ const FoodItem = (data) => {
   );
 };
 
-const Food = ({ aiScannedFoods, recentlyHadFoods }) => {
+const Food = ({ route, aiScannedFoods, recentlyHadFoods }) => {
+  const mealType = route.params?.mealType || "Default Meal";
+  console.log("Food Add: ", mealType);
   return (
     <AppLayout statuBarColor={COLORS.white}>
       <View style={styles.scrollContainer}>

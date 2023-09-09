@@ -22,7 +22,7 @@ import SlideUpMenu from "../../components/SlideUpMenu";
 
 const Home = () => {
   const Stack = createStackNavigator();
-  const [menuVisible, setMenuVisible] = useState(true);
+  const [menuVisible, setMenuVisible] = useState(false);
 
   const handleDateChange = (newDate) => {
     console.log("Date change: ", newDate)
