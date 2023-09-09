@@ -12,6 +12,7 @@ import { Shadow } from "react-native-shadow-2";
 import { COLORS } from "../../constants/theme";
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
+import SlideUpMenu from "../SlideUpMenu";
 
 const MenuButton = ({ icon, isActive, onPress }) => (
   <TouchableOpacity
@@ -26,13 +27,13 @@ const MenuButton = ({ icon, isActive, onPress }) => (
   </TouchableOpacity>
 );
 
-const AddButton = ({ icon }) => (
-  <TouchableOpacity style={styles.addFoodButton}>
+const AddButton = ({ icon , onPress}) => (
+  <TouchableOpacity style={styles.addFoodButton} onPress={onPress}>
     <FontAwesomeIcon icon={icon} size={24} color={COLORS.white} />
   </TouchableOpacity>
 );
 
-const MenuButtons = () => {
+const MenuButtons = ({ onAdd }) => {
   const [activeButton, setActiveButton] = useState("menu"); // Initial active button
   const navigation = useNavigation();
   
@@ -46,6 +47,9 @@ const MenuButtons = () => {
     }
     if(button === "food"){
       navigation.navigate("Food")
+    }
+    if(button === "add"){
+      onAdd()
     }
   };
 
@@ -63,7 +67,7 @@ const MenuButtons = () => {
             isActive={activeButton === "food"}
             onPress={() => handleButtonPress("food")}
           />
-          <AddButton icon={faPlus} />
+          <AddButton icon={faPlus} onPress={() => handleButtonPress("add")} />
           <MenuButton
             icon={faFire}
             isActive={activeButton === "burned"}

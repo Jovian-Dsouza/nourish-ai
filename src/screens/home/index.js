@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View } from "react-native";
 import { ScrollView } from "react-native";
 import WeekDaySelector from "@/components/WeekDaySelector";
@@ -18,19 +18,44 @@ import {
 } from "../../constants/dummyData";
 import AppLayout from "../../layouts/AppLayout";
 import { COLORS } from "../../constants";
+import SlideUpMenu from "../../components/SlideUpMenu";
 
 const Home = () => {
   const Stack = createStackNavigator();
+  const [menuVisible, setMenuVisible] = useState(true);
 
   const handleDateChange = (newDate) => {
     console.log("Date change: ", newDate)
   }
 
   return (
-    <AppLayout statuBarColor={COLORS.lightGreen}>
+    <AppLayout
+      statuBarColor={menuVisible ? "rgba(0,0,0,0.7)" : COLORS.lightGreen}
+    >
+      {menuVisible && (
+        // The overlay
+        <View
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0,0,0,0.65)", // semi-transparent black
+            zIndex: 5, // ensure it's below the SlideUpMenu but above other content
+          }}
+          onPress={() => setMenuVisible(false)}
+        />
+      )}
+      {menuVisible && (
+        <SlideUpMenu
+          isVisible={menuVisible}
+          onClose={() => setMenuVisible(false)}
+        />
+      )}
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.contentContainer}>
-          <Header title="Home"/>
+          <Header title="Home" />
           <WeekDaySelector onDateChange={handleDateChange} />
           <CaloriesSection
             consumedKcal={consumedKcal}
@@ -45,7 +70,7 @@ const Home = () => {
           <DailyMeals foodData={foodData} />
         </View>
       </ScrollView>
-      <MenuButtons />
+      <MenuButtons onAdd={() => setMenuVisible(true)} />
     </AppLayout>
   );
 };
