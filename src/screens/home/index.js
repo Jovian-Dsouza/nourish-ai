@@ -22,12 +22,16 @@ import { COLORS } from "../../constants";
 const Home = () => {
   const Stack = createStackNavigator();
 
+  const handleDateChange = (newDate) => {
+    console.log("Date change: ", newDate)
+  }
+
   return (
     <AppLayout statuBarColor={COLORS.lightGreen}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.contentContainer}>
           <Header title="Home"/>
-          <WeekDaySelector />
+          <WeekDaySelector onDateChange={handleDateChange} />
           <CaloriesSection
             consumedKcal={consumedKcal}
             totalKcal={totalKcal}

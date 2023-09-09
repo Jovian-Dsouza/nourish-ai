@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import {
   View,
   Text,
@@ -8,15 +8,15 @@ import {
 } from "react-native";
 import { COLORS } from "../../src/constants/theme";
 
-const colorSelected = (isSelected) => {
-  if (isSelected) return { color: COLORS.black };
-  return { color: COLORS.lightGray };
-};
+const colorSelected = (isSelected) => ({
+  color: isSelected ? COLORS.black : COLORS.lightGray,
+});
 
-const DayButton = ({ day, date, isSelected, onPress }) => (
+const DayButton = ({ day, date, isSelected, onPress, isDisabled }) => (
   <TouchableOpacity
-    style={[styles.dayButton, { marginHorizontal: 8 }]}
+    style={[styles.dayButton, isDisabled && styles.disabledButton]}
     onPress={onPress}
+    disabled={isDisabled}
   >
     <Text style={[styles.dayButtonText, colorSelected(isSelected)]}>{day}</Text>
     <Text style={[styles.dateText, colorSelected(isSelected)]}>{date}</Text>
@@ -24,28 +24,58 @@ const DayButton = ({ day, date, isSelected, onPress }) => (
   </TouchableOpacity>
 );
 
-const WeekDaySelector = () => {
-  const daysOfWeek = ["M", "T", "W", "T", "F", "S", "S"];
-  const [selectedDayIndex, setSelectedDayIndex] = useState(1); // Default selected day (Tuesday)
+const getWeekDates = () => {
+  const currentDate = new Date();
+  currentDate.setHours(0, 0, 0, 0);
 
-  const handleDayPress = (index) => {
-    setSelectedDayIndex(index);
-  };
+  const sundayDate = new Date(currentDate);
+  sundayDate.setDate(currentDate.getDate() - currentDate.getDay());
+
+  return Array(7)
+    .fill(null)
+    .map((_, i) => {
+      const nextDate = new Date(sundayDate);
+      nextDate.setDate(sundayDate.getDate() + i);
+      return nextDate;
+    });
+};
+
+const WeekDaySelector = ({ onDateChange }) => {
+  const daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
+  const [selectedDayIndex, setSelectedDayIndex] = useState(new Date().getDay());
+
+  const weekDates = useMemo(getWeekDates, []);
+  const currentDate = useMemo(() => {
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    return now;
+  }, []);
+
+  const handleButtonPress = useCallback(
+    (index) => {
+      if (weekDates[index] <= currentDate) {
+        setSelectedDayIndex(index);
+        onDateChange(weekDates[index]);
+      }
+    },
+    [currentDate, onDateChange, weekDates]
+  );
 
   return (
     <View style={styles.container}>
       <FlatList
         data={daysOfWeek}
-        keyExtractor={(_, index) => index.toString()}
+        keyExtractor={(item, index) => index.toString()}
         horizontal
         contentContainerStyle={styles.flatlistContainer}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item, index }) => (
           <DayButton
             day={item}
-            date={(new Date().getDate() + index).toString()}
+            date={weekDates[index].getDate()}
             isSelected={index === selectedDayIndex}
-            onPress={() => handleDayPress(index)}
+            onPress={() => handleButtonPress(index)}
+            isDisabled={weekDates[index] > currentDate}
           />
         )}
       />
@@ -56,11 +86,16 @@ const WeekDaySelector = () => {
 const styles = StyleSheet.create({
   flatlistContainer: {
     justifyContent: "space-between",
-    width: "100%", // Take the full width
+    width: "100%",
   },
   dayButton: {
     alignItems: "center",
     paddingVertical: 8,
+    marginHorizontal: 8,
+    width: 30,
+  },
+  disabledButton: {
+    opacity: 0.6,
   },
   dayButtonText: {
     fontSize: 14,
@@ -73,7 +108,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     width: 6,
     height: 6,
-    backgroundColor: COLORS.orange, // Use the appropriate orange color
+    backgroundColor: COLORS.orange,
     borderRadius: 3,
   },
 });
