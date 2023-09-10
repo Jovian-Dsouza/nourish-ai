@@ -18,23 +18,13 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 50,
     overflow: "hidden",
   },
-
   content: {
     paddingHorizontal: 20,
   },
-
   header: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
-  },
-  searchInput: {
-    height: 45,
-    borderColor: "#ddd",
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingLeft: 10,
-    marginBottom: 10,
   },
   iconContainer: {
     flexDirection: "row",

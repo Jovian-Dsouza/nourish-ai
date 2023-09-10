@@ -2,21 +2,17 @@ import React from "react";
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   FlatList,
-  ScrollView,
 } from "react-native";
-import { createStackNavigator } from "@react-navigation/stack";
+import AppLayout from "../../layouts/AppLayout";
+import { COLORS } from "../../constants";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faMicrophone, faCamera } from "@fortawesome/free-solid-svg-icons";
-
-import Header from "../../components/Header";
-import AppLayout from "../../layouts/AppLayout";
-import FoodItem from "../../components/FoodItem";
+import FoodSearchBar from "../../components/FoodSearchBar";
 import styles from "./styles";
-import { COLORS } from "../../constants";
-import { foodData } from "../../constants/dummyData";
+import Header from "../../components/Header";
+import FoodItem from "../../components/FoodItem";
 
 const dummyAIScanData = [
   { id: "1", name: "Burger", kcal: "354", servingSize: "1 piece" },
@@ -27,13 +23,6 @@ const dummyRecentData = [
   { id: "2", name: "Pasta", kcal: "200", servingSize: "1 plate" },
 ];
 
-const FoodSearchBar = ({ onChange }) => (
-  <TextInput
-    style={styles.searchInput}
-    placeholder="Search in food database"
-    onChangeText={onChange}
-  />
-);
 
 const ActionButton = ({ icon, label }) => (
   <TouchableOpacity style={styles.iconButton}>
