@@ -5,23 +5,18 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
+  ScrollView,
 } from "react-native";
-import { ScrollView } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-import Header from "../../components/Header";
-import DailyMeals from "../../components/DailyMeals";
-import styles from "./styles";
-import { foodData } from "../../constants/dummyData";
-import AppLayout from "../../layouts/AppLayout";
-import { COLORS } from "../../constants";
-import {
-  faMicrophone,
-  faCamera,
-  faAppleAlt,
-  faHamburger,
-  faBowlFood,
-} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faMicrophone, faCamera } from "@fortawesome/free-solid-svg-icons";
+
+import Header from "../../components/Header";
+import AppLayout from "../../layouts/AppLayout";
+import FoodItem from "../../components/FoodItem";
+import styles from "./styles";
+import { COLORS } from "../../constants";
+import { foodData } from "../../constants/dummyData";
 
 const dummyAIScanData = [
   { id: "1", name: "Burger", kcal: "354", servingSize: "1 piece" },
@@ -40,38 +35,27 @@ const FoodSearchBar = ({ onChange }) => (
   />
 );
 
-const ActionButton = ({ icon, onPress }) => (
-  <TouchableOpacity style={styles.actionButton} onPress={onPress}>
-    <FontAwesomeIcon icon={icon} size={24} color="white" />
+const ActionButton = ({ icon, label }) => (
+  <TouchableOpacity style={styles.iconButton}>
+    <FontAwesomeIcon icon={icon} size={20} color={styles.icon.color} />
+    <Text style={styles.iconButtonText}>{label}</Text>
   </TouchableOpacity>
 );
 
-const FoodItem = (data) => {
-  const { name, kcal, servingSize, imageUrl } = data.item;
+const FoodList = ({ title, data }) => (
+  <>
+    <Text style={styles.listTitle}>{title}</Text>
+    <FlatList
+      data={data}
+      renderItem={({ item }) => <FoodItem item={item} />}
+      keyExtractor={(item) => item.id}
+    />
+  </>
+);
 
-  return (
-    <View style={styles.foodItemContainer}>
-      {imageUrl ? (
-        <Image source={{ uri: imageUrl }} style={styles.foodImage} />
-      ) : (
-        <View style={styles.iconPlaceholder}>
-          <FontAwesomeIcon icon={faBowlFood} size={40} color="orange" />
-        </View>
-      )}
-      <View style={styles.textContainer}>
-        <Text style={styles.foodName}>{name}</Text>
-        <View style={styles.detailsContainer}>
-          <Text style={styles.foodDetail}>{kcal} kcal</Text>
-          <Text style={styles.foodDetail}>{servingSize}</Text>
-        </View>
-      </View>
-    </View>
-  );
-};
-
-const Food = ({ route, aiScannedFoods, recentlyHadFoods }) => {
+const Food = ({ route }) => {
   const mealType = route.params?.mealType || "Default Meal";
-  console.log("Food Add: ", mealType);
+
   return (
     <AppLayout statuBarColor={COLORS.white}>
       <View style={styles.scrollContainer}>
@@ -82,37 +66,11 @@ const Food = ({ route, aiScannedFoods, recentlyHadFoods }) => {
         <View style={styles.container}>
           <FoodSearchBar />
           <View style={styles.iconContainer}>
-            <TouchableOpacity style={styles.iconButton}>
-              <FontAwesomeIcon
-                icon={faMicrophone}
-                size={20}
-                color={styles.icon.color}
-              />
-              <Text style={styles.iconButtonText}>Voice Search</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton}>
-              <FontAwesomeIcon
-                icon={faCamera}
-                size={20}
-                color={styles.icon.color}
-              />
-              <Text style={styles.iconButtonText}>Scan Food</Text>
-            </TouchableOpacity>
+            <ActionButton icon={faMicrophone} label="Voice Search" />
+            <ActionButton icon={faCamera} label="Scan Food" />
           </View>
-
-          <Text style={styles.listTitle}>Scanned</Text>
-          <FlatList
-            data={dummyAIScanData}
-            renderItem={({ item }) => <FoodItem item={item} />}
-            keyExtractor={(item) => item.id}
-          />
-
-          <Text style={styles.listTitle}>Recently Had</Text>
-          <FlatList
-            data={dummyRecentData}
-            renderItem={({ item }) => <FoodItem item={item} />}
-            keyExtractor={(item) => item.id}
-          />
+          <FoodList title="Scanned" data={dummyAIScanData} />
+          <FoodList title="Recently Had" data={dummyRecentData} />
         </View>
       </View>
     </AppLayout>
