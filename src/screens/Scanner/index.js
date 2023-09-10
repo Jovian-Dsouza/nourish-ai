@@ -13,7 +13,7 @@ import { faRedo } from "@fortawesome/free-solid-svg-icons"; // Import the redo i
 import AppLayout from "../../layouts/AppLayout";
 import { Camera } from "expo-camera";
 import styles from "./styles";
-import useModel from "../../hooks/useModel";
+import useModel from "../../model/useModel";
 import { decode } from "base-64";
 import ScanResultView from "../../components/ScanResultView";
 import { COLORS } from "../../constants";
