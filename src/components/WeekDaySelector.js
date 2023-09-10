@@ -24,10 +24,7 @@ const DayButton = ({ day, date, isSelected, onPress, isDisabled }) => (
   </TouchableOpacity>
 );
 
-const getWeekDates = () => {
-  const currentDate = new Date();
-  currentDate.setHours(0, 0, 0, 0);
-
+const getWeekDates = (currentDate) => {
   const sundayDate = new Date(currentDate);
   sundayDate.setDate(currentDate.getDate() - currentDate.getDay());
 
@@ -44,18 +41,21 @@ const WeekDaySelector = ({ onDateChange }) => {
   const daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
   const [selectedDayIndex, setSelectedDayIndex] = useState(new Date().getDay());
 
-  const weekDates = useMemo(getWeekDates, []);
   const currentDate = useMemo(() => {
     const now = new Date();
     now.setHours(0, 0, 0, 0);
     return now;
   }, []);
 
+  const weekDates = useMemo(() => getWeekDates(currentDate), [currentDate]);
+
   const handleButtonPress = useCallback(
     (index) => {
-      if (weekDates[index] <= currentDate) {
+      const selectedDate = new Date(weekDates[index]);
+      if (selectedDate <= currentDate) {
+        selectedDate.setDate(selectedDate.getDate() + 1);
         setSelectedDayIndex(index);
-        onDateChange(weekDates[index]);
+        onDateChange(selectedDate);
       }
     },
     [currentDate, onDateChange, weekDates]
