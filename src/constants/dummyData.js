@@ -16,3 +16,10 @@ export const foodData = [
   { mealType: "Lunch", foodName: "Grilled Chicken Salad", totalKcal: 350 },
   { mealType: "Dinner", foodName: "Salmon with Veggies", totalKcal: 400 },
 ];
+
+export const defaultCalorieRequirement = {
+  calories: 3000,
+  proteins: 50,
+  fats: 44,
+  carbs: 56,
+};

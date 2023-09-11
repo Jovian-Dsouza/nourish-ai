@@ -26,16 +26,15 @@ const MacrosCardSection = ({ macro, eaten, total, pbColor }) => {
   );
 };
 
-export const MacrosSection = ({ macroData }) => {
-  const {
-    carbsEaten,
-    carbsTotal,
-    proteinEaten,
-    proteinTotal,
-    fatEaten,
-    fatTotal,
-  } = macroData;
-
+export const MacrosSection = ({
+  carbsEaten,
+  carbsTotal,
+  proteinEaten,
+  proteinTotal,
+  fatEaten,
+  fatTotal,
+}) => {
+  
   return (
     <View style={styles.macrosSection}>
       <MacrosCardSection

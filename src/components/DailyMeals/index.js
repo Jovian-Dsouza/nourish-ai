@@ -16,7 +16,9 @@ const FoodCard = ({ mealType, foodName, totalKcal }) => (
 const DailyMeals = ({ foodData }) => {
   return (
     <View style={styles.dailyMealsContainer}>
-      <Text style={styles.dailyMealsTitle}>Daily Meals</Text>
+      {foodData.length > 0 && (
+        <Text style={styles.dailyMealsTitle}>Daily Meals</Text>
+      )}
       {foodData.map((food, index) => (
         <FoodCard
           key={index}
