@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-import { ScrollView } from "react-native";
 import useDebounce from "../../hooks/useDebounce";
 import { fetchFoodSuggestions } from "../../api/foodApi";
 import styles from "./styles";
@@ -21,13 +20,13 @@ const FoodSuggestion = ({ item, handleSuggestionTap }) => {
   );
 };
 
-const FoodSearchBar = () => {
+const FoodSearchBar = ({ onSuggestionTap }) => {
   const [inputValue, setInputValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const debouncedInputValue = useDebounce(inputValue, DEBOUNCE_DELAY);
 
   const handleSuggestionTap = (item) => {
-    console.log("Item selected", item.food);
+    onSuggestionTap(item)
     setInputValue("");
   };
 
@@ -44,29 +43,30 @@ const FoodSearchBar = () => {
     }
   }, [debouncedInputValue]);
 
+
   return (
-    <View style={styles.searchContainer}>
-      <TextInput
-        style={styles.searchInput}
-        placeholder="Search in food database"
-        onChangeText={(text) => {
-          setInputValue(text);
-        }}
-        value={inputValue}
-      />
-      {suggestions.length > 0 && (
-        <FlatList
-          data={suggestions}
-          renderItem={({ item, index }) => (
-            <FoodSuggestion
-              item={item}
-              handleSuggestionTap={handleSuggestionTap}
-            />
-          )}
-          keyExtractor={(item, index) => index.toString()}
-          style={styles.suggestionsList}
+    <View style={{ height: 60 }}>
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search in food database"
+          onChangeText={setInputValue}
+          value={inputValue}
         />
-      )}
+        {suggestions.length > 0 && (
+          <FlatList
+            data={suggestions}
+            renderItem={({ item, index }) => (
+              <FoodSuggestion
+                item={item}
+                handleSuggestionTap={handleSuggestionTap}
+              />
+            )}
+            keyExtractor={(item, index) => index.toString()}
+            style={styles.suggestionsList}
+          />
+        )}
+      </View>
     </View>
   );
 };

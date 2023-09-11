@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   scrollContainer: {
-    flexGrow: 1,
+    height: "100%",
     backgroundColor: COLORS.white,
   },
   contentContainer: {
@@ -55,6 +55,37 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 20,
     marginBottom: 10,
+  },
+  floatingButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    height: 50,
+    width: "100%",
+    borderRadius: 25,
+    backgroundColor: "orange",
+    position: "absolute",
+    bottom: 20,
+    justifyContent: "space-between",
+    paddingLeft: 40,
+  },
+  floatingButtonText: {
+    color: "white",
+    marginRight: 10,
+    fontSize: 17,
+    fontWeight: "bold",
+  },
+  itemCount: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 10,
+  },
+  itemCountText: {
+    color: "orange",
   },
 });
 

@@ -1,10 +1,5 @@
-import React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  FlatList,
-} from "react-native";
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import AppLayout from "../../layouts/AppLayout";
 import { COLORS } from "../../constants";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -13,55 +8,97 @@ import FoodSearchBar from "../../components/FoodSearchBar";
 import styles from "./styles";
 import Header from "../../components/Header";
 import FoodItem from "../../components/FoodItem";
+import { useNavigation } from "@react-navigation/native";
 
-const dummyAIScanData = [
-  { id: "1", name: "Burger", kcal: "354", servingSize: "1 piece" },
-];
+const dummyData = {
+  aiScan: [{ id: "0", name: "Burger", kcal: "354", servingSize: "1 piece" }],
+  recent: [
+    { id: "1", name: "Salad", kcal: "150", servingSize: "1 bowl" },
+    { id: "2", name: "Pasta", kcal: "200", servingSize: "1 plate" },
+    { id: "3", name: "Pizza", kcal: "200", servingSize: "1 slice" },
+    { id: "4", name: "Pizza", kcal: "200", servingSize: "1 slice" },
+  ],
+};
 
-const dummyRecentData = [
-  { id: "1", name: "Salad", kcal: "150", servingSize: "1 bowl" },
-  { id: "2", name: "Pasta", kcal: "200", servingSize: "1 plate" },
-];
-
-
-const ActionButton = ({ icon, label }) => (
-  <TouchableOpacity style={styles.iconButton}>
-    <FontAwesomeIcon icon={icon} size={20} color={styles.icon.color} />
+const ActionButton = ({ icon, label, onPress }) => (
+  <TouchableOpacity style={styles.iconButton} onPress={onPress}>
+    <FontAwesomeIcon icon={icon} size={20} color={COLORS.orange} />
     <Text style={styles.iconButtonText}>{label}</Text>
   </TouchableOpacity>
 );
 
-const FoodList = ({ title, data }) => (
-  <>
+const FoodListSection = ({ title, data, onItemPress }) => (
+  <View style={styles.foodListContainer}>
     <Text style={styles.listTitle}>{title}</Text>
-    <FlatList
-      data={data}
-      renderItem={({ item }) => <FoodItem item={item} />}
-      keyExtractor={(item) => item.id}
-    />
-  </>
+    {data.map((item) => (
+      <FoodItem key={item.id} item={item} onPress={onItemPress} />
+    ))}
+  </View>
+);
+
+const FloatingButton = ({ mealType, count, onPress }) => (
+  <TouchableOpacity style={styles.floatingButton} onPress={onPress}>
+    <Text style={styles.floatingButtonText}>Add to {mealType}</Text>
+    <View style={styles.itemCount}>
+      <Text style={styles.itemCountText}>{count}</Text>
+    </View>
+  </TouchableOpacity>
 );
 
 const Food = ({ route }) => {
-  const mealType = route.params?.mealType || "Default Meal";
+  const mealType = route.params?.mealType || "breakfast";
+  const navigation = useNavigation();
+  const [selectedFoods, setSelectedFoods] = useState([]);
+
+  const toggleFoodSelection = (item) => {
+    setSelectedFoods((prevSelectedFoods) =>
+      prevSelectedFoods.some((food) => food.id === item.id)
+        ? prevSelectedFoods.filter((food) => food.id !== item.id)
+        : [...prevSelectedFoods, item]
+    );
+  };
 
   return (
-    <AppLayout statuBarColor={COLORS.white}>
+    <AppLayout statusBarColor={COLORS.white}>
       <View style={styles.scrollContainer}>
-        <View style={styles.contentContainer}>
-          <Header title="Food" />
-        </View>
-
+        <Header title="Food" containerStyle={styles.contentContainer} />
         <View style={styles.container}>
           <FoodSearchBar />
           <View style={styles.iconContainer}>
-            <ActionButton icon={faMicrophone} label="Voice Search" />
-            <ActionButton icon={faCamera} label="Scan Food" />
+            <ActionButton
+              icon={faMicrophone}
+              label="Voice Search"
+              onPress={() => {}}
+            />
+            <ActionButton
+              icon={faCamera}
+              label="Scan Food"
+              onPress={() => navigation.navigate("Scanner")}
+            />
           </View>
-          <FoodList title="Scanned" data={dummyAIScanData} />
-          <FoodList title="Recently Had" data={dummyRecentData} />
+          <ScrollView>
+            <FoodListSection
+              title="Scanned"
+              data={dummyData.aiScan}
+              onItemPress={toggleFoodSelection}
+            />
+
+            <FoodListSection
+              title="Recently Had"
+              data={dummyData.recent}
+              onItemPress={toggleFoodSelection}
+            />
+            <View style={{ height: 70 }} />
+          </ScrollView>
         </View>
       </View>
+      {selectedFoods.length > 0 && (
+        <FloatingButton
+          mealType={mealType}
+          count={selectedFoods.length}
+          onPress={() => {}}
+        />
+      )}
     </AppLayout>
   );
 };
