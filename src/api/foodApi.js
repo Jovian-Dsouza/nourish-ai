@@ -15,4 +15,18 @@ const fetchFoodSuggestions = async (query) => {
   }
 };
 
-export { fetchFoodSuggestions };
+const extractUsefulData = (item) => {
+  console.log(item)
+  return {
+    id: item.food.foodId,
+    name: item.food.label,
+    image: item.food.image,
+    calories: item.food.nutrients.ENERC_KCAL,
+    fats: item.food.nutrients.FAT,
+    proteins: item.food.nutrients.PROCNT,
+    carbs: item.food.nutrients.CHOCDF,
+    servingSize: "1 unit",
+  };
+};
+
+export { fetchFoodSuggestions, extractUsefulData };

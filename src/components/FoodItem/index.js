@@ -6,7 +6,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import styles from "./styles";
 
 const FoodItem = ({ item, onPress }) => {
-  const { name, kcal, servingSize, imageUrl } = item;
+  const { name, calories, servingSize, imageURI } = item;
   const [selected, setSelected] = useState(false);
   const [scale] = useState(new Animated.Value(1)); // Scale for animation
 
@@ -31,8 +31,8 @@ const FoodItem = ({ item, onPress }) => {
           },
         ]}
       >
-        {imageUrl ? (
-          <Image source={{ uri: imageUrl }} style={styles.foodImage} />
+        {imageURI ? (
+          <Image source={{ uri: imageURI }} style={styles.foodImage} />
         ) : (
           <View style={styles.iconPlaceholder}>
             <FontAwesomeIcon icon={faBowlFood} size={40} color="orange" />
@@ -41,7 +41,7 @@ const FoodItem = ({ item, onPress }) => {
         <View style={styles.textContainer}>
           <Text style={styles.foodName}>{name}</Text>
           <View style={styles.detailsContainer}>
-            <Text style={styles.foodDetail}>{kcal} kcal</Text>
+            <Text style={styles.foodDetail}>{Number(calories).toFixed(2)} Cal</Text>
             <Text style={styles.foodDetail}>{servingSize}</Text>
           </View>
         </View>

@@ -38,7 +38,7 @@ const MenuButtons = ({ onAdd }) => {
   const navigation = useNavigation();
 
   const handleButtonPress = (button) => {
-    setActiveButton(button);
+    // setActiveButton(button);
     if (button === "scan") {
       navigation.navigate("Scanner");
     }

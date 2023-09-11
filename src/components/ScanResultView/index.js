@@ -25,9 +25,11 @@ const ScanResultView = ({ data, onRetake, onAdd }) => {
   const [servingSize, setServingSize] = useState(1);
   return (
     <ScrollView contentContainerStyle={styles.resultContainer}>
-      <Image source={{ uri: data.image }} style={styles.imagePreview} />
+      <Image source={{ uri: data.imageURI }} style={styles.imagePreview} />
+      {/* <Image src={data.image} style={styles.imagePreview} /> */}
+
       <Text style={styles.foodName}>{data.name}</Text>
-      <Text style={styles.confidence}>Confidence: {data.confidence}%</Text>
+      {/* <Text style={styles.confidence}>Confidence: {data.confidence}%</Text> */}
 
       {/* <View style={styles.sliderContainer}>
         <Text style={styles.sliderLabel}>
@@ -49,25 +51,19 @@ const ScanResultView = ({ data, onRetake, onAdd }) => {
         <Text style={styles.nutritionTitle}>Nutritional Information:</Text>
         <View style={styles.nutritionRow}>
           <FontAwesomeIcon icon={faFire} size={20} />
-          <Text style={styles.nutritionItem}>
-            Calories: {data.nutrition.calories}
-          </Text>
+          <Text style={styles.nutritionItem}>Calories: {data.calories.toFixed(2)} Cal</Text>
         </View>
         <View style={styles.nutritionRow}>
           <FontAwesomeIcon icon={faDrumstickBite} size={20} />
-          <Text style={styles.nutritionItem}>Fats: {data.nutrition.fats}</Text>
+          <Text style={styles.nutritionItem}>Fats: {data.fats.toFixed(2)}g</Text>
         </View>
         <View style={styles.nutritionRow}>
           <FontAwesomeIcon icon={faBreadSlice} size={20} />
-          <Text style={styles.nutritionItem}>
-            Carbohydrates: {data.nutrition.carbohydrates}
-          </Text>
+          <Text style={styles.nutritionItem}>Carbs: {data.carbs.toFixed(2)}g</Text>
         </View>
         <View style={styles.nutritionRow}>
           <FontAwesomeIcon icon={faLeaf} size={20} />
-          <Text style={styles.nutritionItem}>
-            Proteins: {data.nutrition.proteins}
-          </Text>
+          <Text style={styles.nutritionItem}>Proteins: {data.proteins.toFixed(2)}g</Text>
         </View>
       </View>
 

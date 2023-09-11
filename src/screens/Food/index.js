@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import AppLayout from "../../layouts/AppLayout";
 import { COLORS } from "../../constants";
@@ -9,6 +9,7 @@ import styles from "./styles";
 import Header from "../../components/Header";
 import FoodItem from "../../components/FoodItem";
 import { useNavigation } from "@react-navigation/native";
+import { extractUsefulData } from "../../api/foodApi";
 
 const dummyData = {
   aiScan: [{ id: "0", name: "Burger", kcal: "354", servingSize: "1 piece" }],
@@ -27,14 +28,16 @@ const ActionButton = ({ icon, label, onPress }) => (
   </TouchableOpacity>
 );
 
-const FoodListSection = ({ title, data, onItemPress }) => (
-  <View style={styles.foodListContainer}>
-    <Text style={styles.listTitle}>{title}</Text>
-    {data.map((item) => (
-      <FoodItem key={item.id} item={item} onPress={onItemPress} />
-    ))}
-  </View>
-);
+const FoodListSection = ({ title, data, onItemPress }) =>
+  data.length > 0 && (
+    <View style={styles.foodListContainer}>
+      <Text style={styles.listTitle}>{title}</Text>
+      {data.map((item) => (
+        <FoodItem key={item.id} item={item} onPress={onItemPress} />
+      ))}
+    </View>
+  );
+
 
 const FloatingButton = ({ mealType, count, onPress }) => (
   <TouchableOpacity style={styles.floatingButton} onPress={onPress}>
@@ -47,6 +50,8 @@ const FloatingButton = ({ mealType, count, onPress }) => (
 
 const Food = ({ route }) => {
   const mealType = route.params?.mealType || "breakfast";
+  const scannedFood = route.params?.scannedFood;
+
   const navigation = useNavigation();
   const [selectedFoods, setSelectedFoods] = useState([]);
 
@@ -58,12 +63,17 @@ const Food = ({ route }) => {
     );
   };
 
+  const handleSuggestionTap = (item) => {
+    const food = extractUsefulData(item);
+    console.log(food);
+  };
+
   return (
     <AppLayout statusBarColor={COLORS.white}>
       <View style={styles.scrollContainer}>
         <Header title="Food" containerStyle={styles.contentContainer} />
         <View style={styles.container}>
-          <FoodSearchBar />
+          <FoodSearchBar onSuggestionTap={handleSuggestionTap} />
           <View style={styles.iconContainer}>
             <ActionButton
               icon={faMicrophone}
@@ -79,16 +89,16 @@ const Food = ({ route }) => {
           <ScrollView>
             <FoodListSection
               title="Scanned"
-              data={dummyData.aiScan}
+              data={scannedFood ? [scannedFood] : []}
               onItemPress={toggleFoodSelection}
             />
 
-            <FoodListSection
+            {/* <FoodListSection
               title="Recently Had"
               data={dummyData.recent}
               onItemPress={toggleFoodSelection}
             />
-            <View style={{ height: 70 }} />
+            <View style={{ height: 70 }} /> */}
           </ScrollView>
         </View>
       </View>

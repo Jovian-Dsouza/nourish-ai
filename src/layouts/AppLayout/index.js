@@ -2,11 +2,11 @@ import React from "react";
 import { ScrollView, SafeAreaView, StatusBar } from "react-native";
 import styles from "./styles";
 
-const AppLayout = ({ children, statuBarColor }) => {
+const AppLayout = ({ children, statusBarColor }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={statuBarColor} />
+      <StatusBar backgroundColor={statusBarColor} />
       {children}
     </SafeAreaView>
   );

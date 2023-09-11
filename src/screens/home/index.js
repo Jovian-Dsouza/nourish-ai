@@ -110,7 +110,7 @@ const Home = () => {
 
   return (
     <AppLayout
-      statuBarColor={menuVisible ? "rgba(0,0,0,0.7)" : COLORS.lightGreen}
+      statusBarColor={menuVisible ? "rgba(0,0,0,0.7)" : COLORS.lightGreen}
     >
       {menuVisible && <Overlay onPress={() => setMenuVisible(false)} />}
       {menuVisible && (

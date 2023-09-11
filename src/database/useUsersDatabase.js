@@ -130,10 +130,28 @@ export const useUsersDatabase = () => {
     const updatedCarbs = await incrementValue(`${logPath}/carbs`, carbs);
     const updatedFats = await incrementValue(`${logPath}/fats`, fats);
 
+    await logFoodToHistory(userId, foodId, foodName, timestamp);
+
     console.log("updated Calories", updatedCalories);
     console.log("updated Proteins", updatedProteins);
     console.log("updated Carbs", updatedCarbs);
     console.log("updated Fats", updatedFats);
+  };
+
+  const logFoodToHistory = async (userId, foodId, foodName, timestamp) => {
+    const historyRef = push(ref(db, `users/${userId}/foodHistory`));
+    await set(historyRef, {
+      foodId,
+      foodName,
+      timestamp,
+    });
+  };
+
+  const getRecentlyConsumedFoods = async (userId, limit = 5) => {
+    const historyRef = ref(db, `users/${userId}/foodHistory`);
+    const snapshot = await get(historyRef.limitToLast(limit));
+    const foods = snapshot.val();
+    return foods ? Object.values(foods).reverse() : [];
   };
 
   return {
@@ -145,6 +163,7 @@ export const useUsersDatabase = () => {
     getFoodLogsByDate,
     setUserCalorieRequirements,
     getUserCalorieRequirements,
+    getRecentlyConsumedFoods,
     // ...
   };
 };

@@ -18,6 +18,7 @@ import { decode } from "base-64";
 import ScanResultView from "../../components/ScanResultView";
 import { COLORS } from "../../constants";
 import { useNavigation } from "@react-navigation/native";
+import { extractUsefulData, fetchFoodSuggestions } from "../../api/foodApi";
 
 const testDectionData = {
   confidence: 95.7,
@@ -55,19 +56,32 @@ const Scanner = () => {
 
         const pic = await cameraRef.current.takePictureAsync(options);
         const prediction = await predict(pic.base64);
-        const detectionData = {
-          image: pic.uri,
-          name: prediction.className,
-          confidence: 95.7,
-          nutrition: {
-            calories: 354,
-            carbohydrates: "32g",
-            fats: "17g",
-            proteins: "19g",
-          },
-        };
 
-        setDetectedFood(detectionData);
+        let foodData = null;
+        try {
+            foodData = (await fetchFoodSuggestions(prediction.className))[0];
+            foodData = extractUsefulData(foodData);
+        } catch (error) {
+            console.error("Error: " + error)
+            return
+        }
+        foodData = {
+          ...foodData,
+          imageURI: pic.uri,
+        }
+
+        // const detectionData = {
+        //   image: food.uri,
+
+        //   name: foodData.name,
+        //   // confidence: 95.7,
+        //   calories: 354,
+        //   carbs: "32g",
+        //   fats: "17g",
+        //   proteins: "19g",
+        // };
+        console.log("foodData", foodData)
+        setDetectedFood(foodData);
         // console.log("Prediction done: ", prediction);
       } catch (e) {
         console.error("Error predicting:", e);
@@ -83,14 +97,14 @@ const Scanner = () => {
   }
 
   return (
-    <AppLayout statuBarColor={COLORS.orange}>
+    <AppLayout statusBarColor={COLORS.orange}>
       <View style={{ flex: 1 }}>
         {detectedFood ? (
           <ScanResultView
             data={detectedFood}
             onRetake={() => setDetectedFood(null)}
             onAdd={() => {
-              navigation.navigate("Food");
+              navigation.navigate("Food", { scannedFood: detectedFood });
             }}
           />
         ) : (
